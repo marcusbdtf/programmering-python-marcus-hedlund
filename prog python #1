@@ -1,0 +1,23 @@
+"""
+IG: 0-10
+G: 11-20
+VG: 21-30
+MVG: > 30
+"""
+#seed används för att få fram samma slumpade tal
+import random as rnd
+
+
+points = rnd.randint(0,35)
+print(points)
+
+if points > 30:
+    print("MVG")
+elif points > 21:
+    print("VG")
+elif points > 11:
+    print("G")
+else:
+    print("IG")
+
+
