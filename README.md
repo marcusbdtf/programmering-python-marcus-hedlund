@@ -1,0 +1,1 @@
+This repo is where different exercises, labs & code alongs from lessons and assignments are located. 
