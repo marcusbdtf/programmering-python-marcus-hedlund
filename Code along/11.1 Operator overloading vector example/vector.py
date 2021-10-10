@@ -1,5 +1,5 @@
 from typing import Type
-
+from plotter import PlotVectors 
 
 class Vector:
     """A class to represant a Euclidean vector with magnitute and direction"""
@@ -17,14 +17,33 @@ class Vector:
 
     @property
     def numbers(self) -> tuple:
+        """Read only property that returns the numbers"""
         return self._numbers
 
     # (2,3) + (1,1,1) is not okay
     # (2,3) + (1,1) = (3,4) is okay
-    def __add__(self, other: "Vector") -> "Vector":
+    def __add__(self, other: "Vector") -> "Vector": # overloads the + operator
+        """Adds two vectors of same dimensions using + operator"""
         if self.validate_vectors(other):
             numbers = (a+b for a,b in zip(self.numbers, other.numbers))
             return Vector(*numbers)
+
+    def __sub__(self, other: "Vector") -> "Vector":
+         """Subtracts two vectors of same dimensions using + operator"""
+         if self.validate_vectors(other):
+            numbers = (a-b for a,b in zip(self.numbers, other.numbers))
+            return Vector(*numbers)
+    
+    def __mul__(self, value: float) -> "Vector":
+        if not isinstance(value, (float,int)):
+            raise TypeError(f"Value must be float or int not {type(value)}")
+        
+        numbers = (value*a for a in self.numbers)
+        return Vector(*numbers)
+
+    def __rmul__(self, value: float) -> "Vector ":
+        return self*value
+
     # len() function
     def __len__(self) -> int:
         """ returns number of components in a Vector not the Euclidean length"""
@@ -32,7 +51,7 @@ class Vector:
            
 
     def validate_vectors(self, other: "Vector") -> bool:
-        """ validates that two vectors have same dimentions """
+        """ Validates that two vectors have same dimentions """
         if not isinstance(other, Vector) or len(other) != len(self):
             raise TypeError("Both must be Vector and same length")
         return len(self) == len(other)
@@ -43,6 +62,24 @@ class Vector:
     # [] operator
     def __getitem__(self, item: int) -> float:
         return self.numbers[item]
+
+    def __eq__(self, other) -> bool:
+        if not self.validate_vectors(other):
+            return False
+
+        for num1, num2 in zip(self.numbers, other.numbers):
+            if num1 != num2:
+                return False
+
+        return True
+    
+    def plot(self, *others: "Vector") -> None:
+        # TODO: error checking
+        # composition -> Vector has a PlotVectors object
+        plot_vector = PlotVectors(self, *others)
+
+        plot_vector.plot()
+
 
 
 
