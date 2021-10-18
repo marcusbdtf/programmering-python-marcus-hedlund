@@ -20,4 +20,11 @@ class PlotVectors:
 
         plt.quiver(self.originX, self.originY, self.X, self.Y, scale=1, scale_units="xy", angles="xy")
         
-        plt.show(0)
+        plt.xlim(-2,10)
+        plt.ylim(-2,10)
+        plt.xlabel("x")
+        plt.ylabel("y")
+        title = " ".join(f"{X,Y}" for X,Y in zip(self.X, self.Y))
+        plt.title(f"Vectors: {title}")
+        plt.grid()
+        plt.show()
